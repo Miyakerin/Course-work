@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
-public class UsersController {
+public class UsersController { //to-so sort, delete, manual insertion, searching loans
     @Autowired
     UsersRepository usersRepository;
     @GetMapping("/users")

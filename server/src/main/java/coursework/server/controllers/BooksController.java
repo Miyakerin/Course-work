@@ -12,7 +12,7 @@ import java.util.List;
 import static java.util.Objects.nonNull;
 
 @Controller
-public class BooksController {
+public class BooksController { //to-do insertion, delete, sorting, search book by author e.t.c, add new loan by id
     @Autowired
     BooksRepository booksRepository;
     @GetMapping("/books")

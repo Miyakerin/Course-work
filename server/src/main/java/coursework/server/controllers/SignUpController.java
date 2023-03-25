@@ -17,7 +17,7 @@ public class SignUpController {
         return "signUp_page";
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("/signUp") //to-do: data validation
     public String signUpUser(User user) {
 
         usersRepository.save(user);

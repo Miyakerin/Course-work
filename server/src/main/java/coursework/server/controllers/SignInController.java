@@ -10,7 +10,7 @@ public class SignInController {
     public String signInUser(){
         return "redirect:/signIn";
     }
-    @GetMapping("/signIn")
+    @GetMapping("/signIn") //to-do data validation
     public String getSignInPage(){
         return "signIn_page";
     }
