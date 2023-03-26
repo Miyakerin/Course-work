@@ -6,18 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/signUp")
 public class SignUpController {
     @Autowired
     private UsersRepository usersRepository;
 
-    @GetMapping("/signUp")
+    @GetMapping()
     public String getSignUpPage() {
         return "signUp_page";
     }
 
-    @PostMapping("/signUp") //to-do: data validation
+    @PostMapping() //to-do: data validation
     public String signUpUser(User user) {
 
         usersRepository.save(user);

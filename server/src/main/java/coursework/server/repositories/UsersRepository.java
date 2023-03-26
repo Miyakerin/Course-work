@@ -3,6 +3,8 @@ package coursework.server.repositories;
 import coursework.server.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UsersRepository extends JpaRepository<User, Long> {
+import java.util.Optional;
 
+public interface UsersRepository extends JpaRepository<User, Long> {
+    Optional<User> findById(Long id);
 }

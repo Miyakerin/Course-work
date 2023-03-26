@@ -3,6 +3,8 @@ package coursework.server.repositories;
 import coursework.server.models.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BooksRepository extends JpaRepository<Book, Long> {
+import java.util.Optional;
 
+public interface BooksRepository extends JpaRepository<Book, Long> {
+    Optional<Book> findBookById(long id);
 }
