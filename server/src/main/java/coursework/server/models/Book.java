@@ -1,9 +1,11 @@
 package coursework.server.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.lang.Nullable;
+import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
@@ -12,24 +14,35 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor
 
 @Entity
-@Table
+@Table(name="book")
 public class Book {
     @Id
-    @Nonnull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, name = "book_id")
     private long id;
-    @Nonnull
+
+    @Column(nullable = false, name = "book_name")
     private String name;
-    @Nonnull
+
+    @Column(nullable = false, name = "book_description")
     private String description;
-    @Nonnull
-    private long loanerId;
-    @Nonnull
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_account_id", nullable = false)
+    private User user;
+
+    @Column(nullable = false, name = "book_genre")
     private String genre;
-    @Nonnull
+
+    @Column(nullable = false, name = "book_author")
     private String author;
-    @Nonnull
+
+    @Column(nullable = false, name = "book_age_restriction")
     private int ageRestriction;
-    @Nonnull
+
+    @Column(nullable = false, name = "book_condition")
     private String condition;
+
+
 }

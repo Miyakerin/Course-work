@@ -8,7 +8,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,25 +19,34 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "account")
+@Table(name="account")
 public class User implements UserDetails {
     @Id
-    @Nonnull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, name = "account_id")
     private Long id;
-    @Nonnull
+
+    @Column(nullable = false, name = "account_first_name")
     private String firstName;
-    @Nonnull
+
+    @Column(nullable = false, name = "account_last_name")
     private String lastName;
-    @Nonnull
+
+    @Column(nullable = false, name = "account_email")
     private String email;
-    @Nonnull
+
+    @Column(nullable = false, name = "account_password")
     private String password;
-    @Nonnull
+
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "account_role")
     private Role role;
-    @Nonnull
+
+    @Column(nullable = false, name = "account_age")
     private int age;
+
+    @OneToMany(mappedBy = "user")
+    private List<Book> books;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -28,7 +28,7 @@ public class WebSecurityConfig {
             .requestMatchers("/api/auth/**").permitAll()
             .requestMatchers("/api/books/get/**").hasAuthority("USER")
             .requestMatchers("/api/books/post/**", "/api/books/put/**", "/api/books/delete/**").hasAuthority("ADMIN")
-            .anyRequest().hasAuthority("ADMIN")
+            .anyRequest().hasAuthority("USER")
             .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
