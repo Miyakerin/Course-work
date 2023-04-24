@@ -14,18 +14,18 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/api/users")
 public class UsersController { //to-so sort, delete, manual insertion, searching loans
     @Autowired
     UsersRepository usersRepository;
 
-    @GetMapping()
+    @GetMapping(value="/get")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(usersRepository.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable long id) {
+    @GetMapping(value="/get/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
         Optional<User> user = usersRepository.findById(id);
         if (user.isPresent()) {
             return new ResponseEntity<>(user.get(), HttpStatus.OK);
@@ -34,7 +34,7 @@ public class UsersController { //to-so sort, delete, manual insertion, searching
         }
     }
 
-    @PostMapping(
+    @PostMapping(value = "/post",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> postUser(@RequestBody User newUser) {
@@ -46,18 +46,28 @@ public class UsersController { //to-so sort, delete, manual insertion, searching
         }
     }
 
-    @PutMapping(value = "{id}",
+    @PutMapping(value = "/put/{id}",
                 consumes = MediaType.APPLICATION_JSON_VALUE,
                 produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody User updUser) {
-        updUser.setId(id);
-        usersRepository.save(updUser);
-        return new ResponseEntity<>(updUser, HttpStatus.ACCEPTED);
+    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User updUser) {
+        Optional<User> curUser = usersRepository.findById(id);
+        if (curUser.isPresent()) {
+            updUser.setId(id);
+            usersRepository.save(updUser);
+            return new ResponseEntity<>(updUser, HttpStatus.ACCEPTED);
+        } else {
+            throw new NotFoundException();
+        }
     }
 
-    @DeleteMapping("{id}")
-    public void deleteUserById(@PathVariable long id) {
-        usersRepository.deleteById(id);
+    @DeleteMapping(value = "/delete/{id}")
+    public void deleteUserById(@PathVariable("id") long id) {
+        Optional<User> curUser = usersRepository.findById(id);
+        if (curUser.isPresent()) {
+            usersRepository.deleteById(id);
+        } else {
+            throw new NotFoundException();
+        }
     }
 
 
