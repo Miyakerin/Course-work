@@ -3,6 +3,7 @@ package coursework.server.Service;
 import coursework.server.Request.AuthenticationRequest;
 import coursework.server.Response.AuthenticationResponse;
 import coursework.server.Request.RegisterRequest;
+import coursework.server.exceptions.UserExistException;
 import coursework.server.models.Role;
 import coursework.server.models.User;
 import coursework.server.repositories.UsersRepository;
@@ -20,6 +21,9 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     public AuthenticationResponse register(RegisterRequest request) {
+        if (usersRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new UserExistException();
+        }
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())

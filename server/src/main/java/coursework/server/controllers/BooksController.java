@@ -1,72 +1,49 @@
 package coursework.server.controllers;
 
-import coursework.server.exceptions.BadRequestException;
-import coursework.server.exceptions.NotFoundException;
+import coursework.server.Request.PostBookRequest;
+import coursework.server.Service.BookService;
+import coursework.server.Response.BookResponse;
 import coursework.server.models.Book;
-import coursework.server.models.User;
-import coursework.server.repositories.BooksRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/books")
-public class BooksController { //to-do insertion, delete, sorting, search book by author e.t.c, add new loan by id
-    @Autowired
-    BooksRepository booksRepository;
+@RequiredArgsConstructor
+public class BooksController {
+
+    private final BookService service;
     @GetMapping(value = "/get")
     public ResponseEntity<List<Book>> getAllBooks() {
-        return new ResponseEntity<>(booksRepository.findAll(), HttpStatus.OK);
+        return service.getAll();
     }
 
     @GetMapping(value ="/get/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable("id") long id) {
-        Optional<Book> book = booksRepository.findById(id);
-        if (book.isPresent()) {
-            return new ResponseEntity<>(book.get(), HttpStatus.OK);
-        } else {
-            throw new NotFoundException();
-        }
+        return service.getById(id);
     }
 
     @PostMapping(value ="/post",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Book> postBook(@RequestBody Book newBook) {
-        Book book = booksRepository.save(newBook);
-        if (book == null) {
-            throw new BadRequestException();
-        } else {
-            return new ResponseEntity<>(book, HttpStatus.CREATED);
-        }
+    public ResponseEntity<BookResponse> postBook(
+            @RequestBody PostBookRequest request) {
+        return ResponseEntity.ok(service.post(request));
     }
 
     @PutMapping(value = "/put/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Book> updateBook(@PathVariable("id") long id, @RequestBody Book updBook) {
-        Optional<Book> curBook = booksRepository.findById(id);
-        if (curBook.isPresent()) {
-            updBook.setId(id);
-            booksRepository.save(updBook);
-            return new ResponseEntity<>(updBook, HttpStatus.ACCEPTED);
-        } else {
-            throw new NotFoundException();
-        }
+    public ResponseEntity<BookResponse> updateBook(@PathVariable("id") long id, @RequestBody PostBookRequest request) {
+        return ResponseEntity.ok(service.put(request, id));
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteBookById(@PathVariable("id") long id) {
-        Optional<Book> curBook = booksRepository.findById(id);
-        if (curBook.isPresent()) {
-            booksRepository.deleteById(id);
-        } else {
-            throw new NotFoundException();
-        }
+    public ResponseEntity<BookResponse> deleteBookById(@PathVariable("id") long id) {
+        return ResponseEntity.ok(service.deleteById(id));
     }
 }

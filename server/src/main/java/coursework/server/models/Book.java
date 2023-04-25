@@ -1,6 +1,8 @@
 package coursework.server.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,9 +29,9 @@ public class Book {
     @Column(nullable = false, name = "book_description")
     private String description;
 
-    @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_account_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @Column(nullable = false, name = "book_genre")
@@ -43,6 +45,5 @@ public class Book {
 
     @Column(nullable = false, name = "book_condition")
     private String condition;
-
 
 }

@@ -23,18 +23,21 @@ public class WebSecurityConfig {
 
         http
             .csrf()
-            .disable()
+                .disable()
             .authorizeHttpRequests()
-            .requestMatchers("/api/auth/**").permitAll()
-            .requestMatchers("/api/books/get/**").hasAuthority("USER")
-            .requestMatchers("/api/books/post/**", "/api/books/put/**", "/api/books/delete/**").hasAuthority("ADMIN")
-            .anyRequest().hasAuthority("USER")
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/books/get/**").hasAnyAuthority("USER", "ADMIN", "EMPLOYEE")
+                .requestMatchers("/api/books/post/**", "/api/books/put/**", "/api/books/delete/**").hasAnyAuthority("ADMIN", "EMPLOYEE")
+                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/employee/**").hasAnyAuthority("EMPLOYEE", "ADMIN")
+                .requestMatchers("/api/user/**").hasAnyAuthority("USER", "EMPLOYEE", "ADMIN")
+                .anyRequest().hasAnyAuthority("EMPLOYEE", "ADMIN")
             .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
