@@ -2,11 +2,9 @@ package coursework.server.Service;
 
 import coursework.server.Request.PostUserRequest;
 import coursework.server.Response.UserResponse;
-import coursework.server.exceptions.UserExistException;
 import coursework.server.models.Role;
 import coursework.server.models.User;
 import coursework.server.repositories.UsersRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -97,10 +95,12 @@ public class UserService {
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
 
-    public ResponseEntity<User> getByTokenUser(String jwtToken) {
+    public ResponseEntity<User> getByTokenUser(String token) {
+        if (token==null || !token.startsWith("Bearer ")) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        String jwtToken = token.substring(7);
         String userEmail = jwtService.extractUserEmail(jwtToken);
-        System.out.println(jwtToken);
-        System.out.println(userEmail);
         if (usersRepository.findByEmail(userEmail).isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

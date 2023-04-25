@@ -2,7 +2,6 @@ package coursework.server.Service;
 
 import coursework.server.Request.PostBookRequest;
 import coursework.server.Response.BookResponse;
-import coursework.server.exceptions.NotFoundException;
 import coursework.server.models.Book;
 import coursework.server.repositories.BooksRepository;
 import coursework.server.repositories.UsersRepository;

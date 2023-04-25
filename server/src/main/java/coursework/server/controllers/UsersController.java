@@ -1,27 +1,17 @@
 package coursework.server.controllers;
 
 import coursework.server.Request.PostUserRequest;
-import coursework.server.Request.RegisterRequest;
-import coursework.server.Response.AuthenticationResponse;
 import coursework.server.Response.UserResponse;
 import coursework.server.Service.AuthenticationService;
-import coursework.server.Service.JwtService;
 import coursework.server.Service.UserService;
-import coursework.server.exceptions.BadRequestException;
-import coursework.server.exceptions.NotFoundException;
 import coursework.server.models.User;
-import coursework.server.repositories.UsersRepository;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -69,10 +59,9 @@ public class UsersController {
         return userService.getByIdEmployee(id);
     }
 
-    @GetMapping(value = "/user/\"{token}\"/get")
-    public ResponseEntity<User> getUserByTokenUser(@PathVariable("token") String token) {
-        //return new ResponseEntity<>(token, HttpStatus.OK);
-        return userService.getByTokenUser(token);
+    @GetMapping(value = "/user/me/get")
+    public ResponseEntity<User> getUserByToken(@RequestHeader(value = "Authorization") String authHeader) {
+        return userService.getByTokenUser(authHeader);
     }
 
 }

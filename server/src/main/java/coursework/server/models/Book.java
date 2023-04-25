@@ -1,13 +1,8 @@
 package coursework.server.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
 
 @Getter
 @Setter
