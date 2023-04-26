@@ -59,7 +59,7 @@ public class UsersController {
         return userService.getByIdEmployee(id);
     }
 
-    @GetMapping(value = "/user/me/get")
+    @GetMapping(value = "/user/me/info")
     public ResponseEntity<User> getUserByToken(@RequestHeader(value = "Authorization") String authHeader) {
         return userService.getByTokenUser(authHeader);
     }

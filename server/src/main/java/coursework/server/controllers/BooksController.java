@@ -12,22 +12,32 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/books")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class BooksController {
 
     private final BookService service;
-    @GetMapping(value = "/get")
+    @GetMapping(value = "employee/books/get")
     public ResponseEntity<List<Book>> getAllBooks() {
         return service.getAll();
     }
 
-    @GetMapping(value ="/get/{id}")
+    @GetMapping(value ="employee/books/get/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable("id") long id) {
         return service.getById(id);
     }
 
-    @PostMapping(value ="/post",
+    @GetMapping(value = "user/available/get")
+    public ResponseEntity<List<Book>> getAvailableBooks(){
+        return service.getAvailable();
+    }
+
+    @GetMapping(value = "user/me/loans")
+    public ResponseEntity<List<Book>> getBooksByToken(@RequestHeader(value = "Authorization") String authHeader){
+        return service.getBooksByToken(authHeader);
+    }
+
+    @PostMapping(value ="employee/books/post",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookResponse> postBook(
@@ -35,14 +45,14 @@ public class BooksController {
         return ResponseEntity.ok(service.post(request));
     }
 
-    @PutMapping(value = "/put/{id}",
+    @PutMapping(value = "employee/books/put/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookResponse> updateBook(@PathVariable("id") long id, @RequestBody PostBookRequest request) {
         return ResponseEntity.ok(service.put(request, id));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("employee/books/delete/{id}")
     public ResponseEntity<BookResponse> deleteBookById(@PathVariable("id") long id) {
         return ResponseEntity.ok(service.deleteById(id));
     }
