@@ -37,6 +37,11 @@ public class BooksController {
         return service.getBooksByToken(authHeader);
     }
 
+    @GetMapping(value = "employee/books/getloan/{id}")
+    public ResponseEntity<List<Book>> getLoansByUserId(@PathVariable("id") long id) {
+        return service.getLoanByUserId(id);
+    }
+
     @PostMapping(value ="employee/books/post",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)

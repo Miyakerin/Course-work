@@ -3,6 +3,7 @@ package coursework.server.Service;
 import coursework.server.Request.PostBookRequest;
 import coursework.server.Response.BookResponse;
 import coursework.server.models.Book;
+import coursework.server.models.User;
 import coursework.server.repositories.BooksRepository;
 import coursework.server.repositories.UsersRepository;
 import lombok.RequiredArgsConstructor;
@@ -89,5 +90,13 @@ public class BookService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(booksRepository.findAllByUser(usersRepository.findByEmail(userEmail).get()).stream().toList(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Book>> getLoanByUserId(long id) {
+        Optional<User> user = usersRepository.findById(id);
+        if (user.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(booksRepository.findAllByUser(user.get()).stream().toList(), HttpStatus.OK);
     }
 }
