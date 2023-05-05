@@ -13,6 +13,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * сервис для аутентификации
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -20,6 +23,10 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    /**
+     * @param request реквест класса RegisterRequest, содержащий информацию о новом пользователе
+     * @return http-ответ сервера
+     */
     public AuthenticationResponse register(RegisterRequest request) {
         if (usersRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new UserExistException();
@@ -38,7 +45,10 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
-
+    /**
+     * @param request реквест, содержащий информацию о пользователе для аутентификации
+     * @return http-ответ сервера, содержащий jwt-token
+     */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

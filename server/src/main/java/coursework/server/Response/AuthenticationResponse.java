@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * ответ сервера при успешной аутентификации, содержащий уникальный токен
+ */
 @Data
 @Builder
 @AllArgsConstructor

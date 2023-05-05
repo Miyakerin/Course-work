@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * реквест для добавления/изменения записей в таблице book
+ */
 @Data
 @Builder
 @AllArgsConstructor

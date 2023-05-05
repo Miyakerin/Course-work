@@ -17,11 +17,22 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * класс для проведения фильтрации по авторизации
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
+    /**
+     * @param request http-реквест
+     * @param response ответ сервера
+     * @param filterChain цепочка фильтрации
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(
         @NonNull HttpServletRequest request,

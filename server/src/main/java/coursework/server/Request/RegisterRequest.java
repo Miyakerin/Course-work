@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * реквест для создания новой записи в таблице account
+ */
 @Data
 @Builder
 @AllArgsConstructor

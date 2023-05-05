@@ -11,6 +11,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * конфигурационный класс для разграничения прав доступа к url
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

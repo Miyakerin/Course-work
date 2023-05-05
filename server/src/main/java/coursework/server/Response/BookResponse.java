@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * ответ сервера, содержащий информацию о статусе результата выполнения ф-ции
+ */
 @Data
 @Builder
 @AllArgsConstructor

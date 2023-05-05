@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * реквест для создания/изменения записи в таблице fccount
+ */
 @Data
 @Builder
 @AllArgsConstructor

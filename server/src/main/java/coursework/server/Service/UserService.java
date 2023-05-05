@@ -14,17 +14,25 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * сервисный слой для таблицы account
+ */
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-
+    /**
+     * @return все записи в таблице account
+     */
     public ResponseEntity<List<User>> getAllAdmin() {
         return new ResponseEntity<>(usersRepository.findAll(), HttpStatus.OK);
     }
-
+    /**
+     * @param id id записи в таблице account
+     * @return запись с соответсвующим pk в таблице account
+     */
     public ResponseEntity<User> getByIdAdmin(long id) {
         Optional<User> user = usersRepository.findById(id);
         if (user.isEmpty()) {
@@ -32,7 +40,10 @@ public class UserService {
         }
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
-
+    /**
+     * @param request реквест класса PostUserRequest
+     * @return http-статус с кодом завершения операции
+     */
     public UserResponse postAdmin(PostUserRequest request) {
         if (usersRepository.findByEmail(request.getEmail()).isPresent()) {
             return UserResponse.builder().success(false).build();
@@ -48,7 +59,11 @@ public class UserService {
         usersRepository.save(user);
         return UserResponse.builder().success(true).build();
     }
-
+    /**
+     * @param id id записи в таблице account
+     * @param request реквест класса PostUserRequest
+     * @return http-статус с кодом завершения операции
+     */
     public UserResponse putAdmin(PostUserRequest request, long id) {
         if (usersRepository.findById(id).isEmpty()) {
             return UserResponse.builder().success(false).build();
@@ -69,7 +84,10 @@ public class UserService {
         usersRepository.save(user);
         return UserResponse.builder().success(true).build();
     }
-
+    /**
+     * @param id id записи в таблице account
+     * @return http-статус с кодом звершения операции
+     */
     public UserResponse deleteByIdAdmin(long id) {
         if (usersRepository.findById(id).isEmpty()) {
             return UserResponse.builder().success(false).build();
@@ -77,7 +95,9 @@ public class UserService {
         usersRepository.deleteById(id);
         return UserResponse.builder().success(true).build();
     }
-
+    /**
+     * @return все записи в таблице account за исключением пароля
+     */
     public ResponseEntity<List<User>> getAllEmployee() {
         List<User> userList = usersRepository.findAll();
         for (int i = 0; i < userList.size(); i++) {
@@ -85,7 +105,10 @@ public class UserService {
         }
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
-
+    /**
+     * @param id id записи в таблице account
+     * @return соответсвующая запись в таблице account за исключением пароля
+     */
     public ResponseEntity<User> getByIdEmployee(long id) {
         Optional<User> user = usersRepository.findById(id);
         if (user.isEmpty()) {
@@ -94,7 +117,10 @@ public class UserService {
         user.get().setPassword("");
         return new ResponseEntity<>(user.get(), HttpStatus.OK);
     }
-
+    /**
+     * @param token
+     * @return
+     */
     public ResponseEntity<User> getByTokenUser(String token) {
         if (token==null || !token.startsWith("Bearer ")) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

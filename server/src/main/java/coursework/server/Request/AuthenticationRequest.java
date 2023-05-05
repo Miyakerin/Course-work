@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * реквест для аутентификации
+ */
 @Data
 @Builder
 @AllArgsConstructor
